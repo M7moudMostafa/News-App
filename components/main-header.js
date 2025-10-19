@@ -1,3 +1,4 @@
+import NavLink from "@/components/nav-link";
 import Link from "next/link";
 
 const MainHeader = () => {
@@ -9,12 +10,15 @@ const MainHeader = () => {
       <nav>
         <ul>
           <li>
-            <Link href="/news">News</Link>
+            <NavLink href="/news">News</NavLink>
+          </li>
+          <li>
+            <NavLink href="/archive">Archive</NavLink>
           </li>
         </ul>
       </nav>
     </header>
-  )
+  );
 };
 
 export default MainHeader;
