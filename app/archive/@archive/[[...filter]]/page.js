@@ -1,5 +1,10 @@
 import NewsList from "@/components/news-list";
-import { getAvailableNewsMonths, getAvailableNewsYears, getNewsForYear, getNewsForYearAndMonth } from "@/lib/news";
+import {
+    getAvailableNewsMonths,
+    getAvailableNewsYears,
+    getNewsForYear,
+    getNewsForYearAndMonth,
+} from "@/lib/news";
 import Link from "next/link";
 
 const FilteredNewsPage = ({ params }) => {
@@ -16,7 +21,7 @@ const FilteredNewsPage = ({ params }) => {
         links = getAvailableNewsMonths(selectedYear);
     }
 
-    if(selectedYear && selectedMonth) {
+    if (selectedYear && selectedMonth) {
         news = getNewsForYearAndMonth(selectedYear, selectedMonth);
         links = [];
     }
@@ -27,18 +32,28 @@ const FilteredNewsPage = ({ params }) => {
         newsContent = <NewsList news={news} />;
     }
 
+    if (
+        (selectedYear && !getAvailableNewsMonths().includes(selectedYear)) ||
+        (selectedMonth &&
+            !getAvailableNewsMonths(selectedYear).includes(selectedMonth))
+    ) {
+        throw new Error("Invalid filter.");
+    }
+
     return (
         <>
             <header id="archive-header">
                 <nav>
                     <ul>
                         {links.map((link) => {
-                            const href = selectedYear ? `/archive/${selectedYear}/${link}` : `/archive/${link}`;
+                            const href = selectedYear
+                                ? `/archive/${selectedYear}/${link}`
+                                : `/archive/${link}`;
                             return (
-                            <li key={link}>
-                                <Link href={href}>{link}</Link>
-                            </li>
-                            )
+                                <li key={link}>
+                                    <Link href={href}>{link}</Link>
+                                </li>
+                            );
                         })}
                     </ul>
                 </nav>
